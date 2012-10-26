@@ -141,6 +141,13 @@ def bind_api(**config):
                             self.method, self.headers, self.parameters
                     )
 
+                # Add Content-Length header for POST requests
+                if self.method == 'POST':
+                    if self.post_data:
+                        self.headers['Content-Length'] = str(len(self.post_data))
+                    else:
+                        self.headers['Content-Length'] = '0'
+
                 # Execute request
                 try:
                     conn.request(self.method, url, headers=self.headers, body=self.post_data)
